@@ -1,12 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Data;
 
 namespace WebApp_Entity.Models
 
 {
     public class UserModel
     {
-        int id { get; set; }
+        
+
+        public string id { get; set; }
         public string Name { get; set; }
         public string phone { get; set; }
         public string Password { get; set; }
@@ -25,7 +28,7 @@ namespace WebApp_Entity.Models
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        this.id = reader.GetInt32(0);
+                        this.id = Convert.ToString( reader.GetInt32(0));
                         this.Name = reader.GetString(1);
                         this.username = reader.GetString(2);
                         this.phone = reader.GetString(4);

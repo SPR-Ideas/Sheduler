@@ -4,11 +4,11 @@ using System.Security.Claims;
 using WebApp_Entity.Models;
 
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.IdentityModel.JsonWebTokens;
+
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Data.SqlClient;
 
 namespace WebApp_Entity.Controllers
 {
@@ -49,7 +49,9 @@ namespace WebApp_Entity.Controllers
         [HttpPost]
         public string CreateToken() {
             List<Claim> claim = new List<Claim>() {
-            new Claim(ClaimTypes.Name, User.username)
+            new Claim(ClaimTypes.Name, User.username),
+            new Claim(ClaimTypes.Sid,User.id),
+            new Claim(ClaimTypes.MobilePhone,User.phone)
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value
@@ -58,7 +60,7 @@ namespace WebApp_Entity.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claim,
-                expires: DateTime.Now.AddMinutes(2),
+                expires: DateTime.Now.AddHours(2),
                 signingCredentials: cred
                 ) ;
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
@@ -86,7 +88,11 @@ namespace WebApp_Entity.Controllers
             }
             if (identity != null) {
                 var userClaims = identity.Claims;
-                return new UserModel{ username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Name)?.Value};
+                return new UserModel {
+                    username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Name)?.Value,
+                    id =(userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Sid)?.Value),
+                    phone = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.MobilePhone)?.Value
+                };
             }
             return null;
         }
@@ -96,10 +102,20 @@ namespace WebApp_Entity.Controllers
         public IActionResult dashboard() {
             UserModel user = getCurrentUser();
             ViewBag.user = user;
+            MeetingModel meetings = new MeetingModel();
+            meetings.getMeetingList(  Convert.ToInt32( user.id));
+            ViewBag.meetings = meetings.MeetingList;
+
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ConfirmAppointment(int id) {
+            MeetingModel meet = new MeetingModel();
+            meet.confirmMeeting(id);
 
+            return RedirectToAction("dashboard");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
