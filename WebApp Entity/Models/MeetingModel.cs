@@ -87,15 +87,32 @@ namespace WebApp_Entity.Models
             }
         }
 
+        public void makeAppointment(Meet meet)
+        {
+            try
+            {
+                string sqlConnectionString = "Data Source=localhost;Initial Catalog=AppointmentSheduler;Integrated Security=True;Encrypt=False";
+
+                using (SqlConnection connection = new SqlConnection(sqlConnectionString))
+                {
+
+                    SqlCommand cmd = new SqlCommand(
+                        $"Insert Into Meeting(name, from_user,to_user,timing) values('{meet.Name}',{meet.from_user},{meet.to_user},'{meet.timing}' );"
+                        , connection);
+                    connection.Open();
+                    int rows =cmd.ExecuteNonQuery();
+                    if (rows > 0) { Console.WriteLine("Meeting Added"); }
+                    else { Console.WriteLine("Meeting not Added"); }
+                }
+
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
     }
 
-    public class Meet {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string from_user { get; set; }
-        public string to_user { get; set; }
-        public string timing { get; set; }
-        public string confirmed { get; set; }
-
-    }
+    
 }

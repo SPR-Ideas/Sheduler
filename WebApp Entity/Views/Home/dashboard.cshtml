@@ -7,11 +7,50 @@
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-<button class="btn btn-outline-primary "> <i class=" fa  fa-calendar ">  </i>  Shedule Appointment  </button>
+@model WebApp_Entity.Models.Meet;
+
+<div class="row">
+    <div class="cols-3 offset-9">
+        <button class="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class=" fa  fa-calendar ">  </i>  Shedule Appointment  </button>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Shedule Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/home/makeappointment" method="post">
+                    <input type="text" asp-for="from_user" value="@ViewBag.user.id" hidden="true" >
+                    <div class="form-group">
+                        <label for="jobrole">Meeting Title </label>
+                        <input type="text" class="form-control" id="jobrole" placeholder="Meet Name(Descriptio)" asp-for="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="company">To  </label>
+                        <input type="text" class="form-control" id="company" placeholder="To user Id" asp-for="to_user">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Timing:</label>
+                        <input type="datetime" class="form-control" id="location" placeholder="Timings" asp-for="timing">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="submit">
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <br>
-
-
-
 <div class="row" style="height:70vh;">
     <div class="card col-6">
         <div class="card-body">

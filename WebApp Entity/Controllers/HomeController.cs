@@ -120,11 +120,15 @@ namespace WebApp_Entity.Controllers
         public IActionResult DeleteAppointment(int id)
         {
             MeetingModel meet = new MeetingModel();
-            meet.confirmMeeting(id);
-
+            meet.deleteMeeting(id);
             return RedirectToAction("dashboard");
         }
 
+        public IActionResult MakeAppointment(Meet meet) { 
+            MeetingModel mt = new MeetingModel();
+            mt.makeAppointment(meet);
+            return RedirectToAction("dashboard");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
