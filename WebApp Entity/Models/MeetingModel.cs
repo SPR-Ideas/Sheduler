@@ -52,18 +52,8 @@ namespace WebApp_Entity.Models
                         $"Update meeting set confirmed = 1 where id= {MeetId}"
                         , connection);
                     connection.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Meet meet = new Meet();
-                        meet.Id = reader.GetInt32(0);
-                        meet.Name = reader.GetString(1);
-                        meet.from_user = Convert.ToString(reader.GetInt32(2));
-                        meet.to_user = Convert.ToString(reader.GetInt32(3));
-                        meet.timing = reader.GetDateTime(4).ToString("d MMM");
-                        meet.confirmed = Convert.ToString(reader.GetBoolean(5));
-                        MeetingList.Add(meet);
-                    }
+                    cmd.ExecuteNonQuery();
+                    
                 }
 
             }
@@ -73,7 +63,30 @@ namespace WebApp_Entity.Models
             }
         }
 
-        
+        public void deleteMeeting(int MeetId)
+        {
+            try
+            {
+                string sqlConnectionString = "Data Source=localhost;Initial Catalog=AppointmentSheduler;Integrated Security=True;Encrypt=False";
+
+                using (SqlConnection connection = new SqlConnection(sqlConnectionString))
+                {
+
+                    SqlCommand cmd = new SqlCommand(
+                        $"Delete meeting where id= {MeetId}"
+                        , connection);
+                    connection.Open();
+                    cmd.ExecuteNonQuery ();
+                    
+                }
+
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
     }
 
     public class Meet {

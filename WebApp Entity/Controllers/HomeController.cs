@@ -117,6 +117,15 @@ namespace WebApp_Entity.Controllers
             return RedirectToAction("dashboard");
         }
 
+        public IActionResult DeleteAppointment(int id)
+        {
+            MeetingModel meet = new MeetingModel();
+            meet.confirmMeeting(id);
+
+            return RedirectToAction("dashboard");
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
