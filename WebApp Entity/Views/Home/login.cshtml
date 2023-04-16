@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+@model WebApp_Entity.Models.UserModel;
+
+<div class="wrapper">
+    <div class="logo">
+        <img src="https://www.wisx.com/wp-content/uploads/time-1606153_640-300x300.png" alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        Sheduler App
+    </div>
+    <form class="p-3 mt-3" method="post" action="">
+
+
+
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" name="userName" id="userName" placeholder="Username" asp-for="username">
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <span class="fas fa-key"></span>
+            <input type="password" name="password" id="pwd" placeholder="Password" asp-for="Password">
+        </div>
+        <button type ="submit" class="btn mt-3">Login</button>
+    </form>
+    <div class="text-center fs-6">
+        <a href="#">Create account</a>  <a href="/home/register">Sign In</a>
+    </div>
+</div>

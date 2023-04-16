@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WebApp_Entity.Models.UserModel;
+
+<div class="wrapper">
+    <div class="logo">
+        <img src="https://www.wisx.com/wp-content/uploads/time-1606153_640-300x300.png" alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        Sheduler App
+    </div>
+    <form class="p-3 mt-3"  id = "from-register" method="post" action="">
+
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" class="form-control is-invalid" name="Name" id="Name" placeholder="Name" asp-for="Name">
+            
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" class="form-control is-invalid" name="Phone" id="Phone" placeholder="Phone" asp-for="phone">
+        </div>
+
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" name="userName" id="userName" class="form-control is-invalid" placeholder="Username" asp-for="username">
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <span class="fas fa-key"></span>
+            <input type="password" name="password" id="pwd" class="form-control is-invalid" placeholder="Password" asp-for="Password">
+        </div>
+        <button type="submit" class="btn mt-3">Register</button>
+    </form>
+    <div class="text-center fs-6">
+        <a href="/home/login">You have account?</a> <a href="#">Sign in</a>
+    </div>
+</div>
+
+
